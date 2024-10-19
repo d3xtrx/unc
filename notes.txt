@@ -1,6 +1,6 @@
 site map:
 	landing / index
-	stat submission
+	stat submission - nodejs express api backend 
 		int weight
 		n exercise form: user fills in as many as they add
 			int mins of exercise
