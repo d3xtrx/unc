@@ -1,6 +1,15 @@
 site map:
 	landing / index
 	stat submission
+		int weight
+		n exercise form: user fills in as many as they add
+			int mins of exercise
+			str list of exercizes 
+		diet list: 
+			list food 
+			int calories
+
+		
 	stat tracker 
 	store to purachase uncs and skins (css themes)
 
