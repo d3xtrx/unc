@@ -1,0 +1,66 @@
+* {
+    font-family: "Lobster", sans-serif;
+    font-weight: normal;
+    font-style: normal;      
+}
+
+body {
+    background-color: rgb(243,187, 190);
+    /*animation: color-change 10s infinite linear;*/
+} 
+
+/*@keyframes color-change {
+    0%   { background: rgb(243,187, 190); }
+    20%  { background: rgb(245, 233, 209); }
+    40%  { background: rgb(243,187, 190); }
+    60%  { background: rgb(245, 233, 209); }
+    80%  { background: rgb(243,187, 190); }
+    100% { background: rgb(245, 233, 209); }
+  }*/
+
+
+
+nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    font-size: 45px;
+    background-color: rgb(245, 233, 209);
+    width: 100%;
+    height: 75px;
+    word-spacing: 50px;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    font-size: 45.5px;
+    transition:font-size 0.5s ease, text-shadow 0.5s ease;
+    text-shadow: 0 0 60px grey;
+}
+
+header {
+    font-size: 100px;
+    margin-top: 200px;
+    text-align: center;
+    color: grey;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 35px;
+    color: grey;
+}
+
+form {
+    text-align: center;
+}
+
+.form-1, .form-2, .form-3, .form-4 {
+    font-size: 
+}
