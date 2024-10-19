@@ -5,9 +5,10 @@ site map:
 		n exercise form: user fills in as many as they add
 			int mins of exercise
 			str list of exercizes 
-		diet list: 
-			list food 
-			int calories
+				cardio
+				weight lifting
+				hiking
+		int calories
 
 		
 	stat tracker 
