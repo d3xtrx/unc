@@ -66,9 +66,9 @@ form {
     width: 450px;
 }
 
-.exercise-time, .list-of-exercise, #exercise-select {
+/*.exercise-time, .list-of-exercise, #exercise-select {
     display: none;
-}
+}*/
 
 .submit-button {
     font-size: 15px;
