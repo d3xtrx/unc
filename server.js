@@ -1,9 +1,5 @@
 const express = require('express');
 const { Pool } = require('pg');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
-const cron = require('node-cron');
 
 const app = express();
 app.use(express.json());
