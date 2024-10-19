@@ -12,7 +12,7 @@ app.use(cors());
 const pool = new Pool({
 //  user: 'your_username',
   host: 'localhost',
-  database: 'unc',
+  database: 'uncdb',
 //  password: 'your_password',
   port: 5432,
 });
@@ -25,7 +25,16 @@ app.get('/debug_all_users', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+app.post('/setweight', (req, res) => {
+  const number = req.body.number;
 
+  if (typeof number === 'number' && Number.isInteger(number)) {
+    console.log(`Received integer: ${number}`);
+    res.status(200).json({ message: `Received and printed integer: ${number}` });
+  } else {
+    res.status(400).json({ error: 'Invalid input. Please provide an integer.' });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
