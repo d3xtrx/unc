@@ -1,0 +1,8 @@
+site map:
+	landing / index
+	stat submission
+	stat tracker 
+	store to purachase uncs and skins (css themes)
+
+
+
