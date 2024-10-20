@@ -28,3 +28,10 @@ INSERT INTO users (username, first_name, last_name)
 VALUES
     ('testuser6',   'Test', 'User6')
 ON CONFLICT (username) DO NOTHING;
+
+INSERT INTO shop (name, description, category, price, image_url)
+VALUES
+    (
+
+    )
+ON CONFLICT (name) DO NOTHING;
