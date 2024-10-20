@@ -32,18 +32,6 @@ app.post("/setweight", (req, res) => {
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 const pool = new Pool({
 //  user: 'your_username',
   host: 'localhost',
