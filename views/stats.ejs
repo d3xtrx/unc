@@ -24,19 +24,30 @@
 <br/>
 <header>UNC Statistics</header>
 <div class="statistics">
-    <h2>User Statistics</h2>
-    <p>Total Users: <%= typeof userCount === 'number' ? userCount : 'N/A' %></p>
-    <p>Current User Weight:
-    <% if (typeof curWeight === 'number' && !isNaN(curWeight)) { %>
-        <%= curWeight.toFixed(2) %> kg
-    <% } else { %>
-        N/A
-    <% } %>
-    </p>
-    <p>Total Calories Burned: <%= typeof totalCalories === 'number' ? totalCalories.toFixed(2) : 'N/A' %></p>
-    <% if (typeof error !== 'undefined') { %>
-        <p class="error"><%= error %></p>
-    <% } %>
+        <h2>User Statistics</h2>
+        <p>Current Weight:
+                <%= curWeight %> kg
+        </p>
+        <p>Total Calories Consumed:
+                <%= totalCalories %>
+        </p>
+        <p>Total Exercise Time:
+            <% if (typeof totalExerciseTime === 'number' && !isNaN(totalExerciseTime)) { %>
+                <%= totalExerciseTime %> minutes
+            <% } else { %>
+                N/A
+            <% } %>
+        </p>
+        <p>Health Score:
+            <% if (typeof sentimentScore === 'number' && !isNaN(sentimentScore)) { %>
+                <%= sentimentScore %>
+            <% } else { %>
+                N/A
+            <% } %>
+        </p>
+        <% if (typeof error !== 'undefined') { %>
+            <p class="error"><%= error %></p>
+        <% } %>
 </div>
 
 <script>
