@@ -44,9 +44,9 @@ app.get("/unc-store", (req, res)=> {
   res.render("unc-store.ejs")
 })
 
-app.get("/stats"), (req, res) => {
+app.get("/stats", (req, res) => {
   res.render("stats.ejs")
-}
+})
 
 app.post("/setweight", async (req, res) => {
   const weight = req.body.weight;
