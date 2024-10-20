@@ -3,8 +3,6 @@ from os import listdir, system
 from PIL import Image
 import sys
 
-
-
 gif_files = [file for file in listdir() if file.endswith('.gif')]
 
 for file in gif_files:
