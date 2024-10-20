@@ -28,10 +28,24 @@ app.get("/unc-store", (req, res)=> {
 
 app.post("/setweight", (req, res) => {
   const weight = req.body.weight;
-  console.log(weight);
-  res.redirect('num-form.ejs');
-})
+  const exerciseCount = req.body.exerciseCount;
+  const calories = req.body.calories;
 
+  console.log(`Weight: ${weight}`);
+  console.log(`Number of exercises: ${exerciseCount}`);
+  console.log(`Calories: ${calories}`);
+
+  // Process exercise data
+  for (let i = 0; i < exerciseCount; i++) {
+    const exerciseType = req.body[`exerciseType${i}`];
+    const exerciseDuration = req.body[`exerciseDuration${i}`];
+    console.log(`Exercise ${i + 1}: ${exerciseType} for ${exerciseDuration} minutes`);
+  }
+
+  // Here you would typically save this data to your database
+
+  res.redirect('/'); // Redirect to home page or a confirmation page
+});
 
 const pool = new Pool({
 //  user: 'your_username',
