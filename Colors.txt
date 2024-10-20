@@ -1,0 +1,7 @@
+-Blue
+Main:  5c53b9
+Dark:  47418e
+Light: aba6e1
+
+-Pink
+Main:
