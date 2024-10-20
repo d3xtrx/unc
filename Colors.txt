@@ -1,7 +1,29 @@
+-Pink
+Main:  f3bbbe
+Dark:  cd9598
+Light: ffe5e5
+
 -Blue
 Main:  5c53b9
 Dark:  47418e
 Light: aba6e1
 
--Pink
-Main:
+-Purple
+Main:  8b387e
+Dark:  5e2756
+Light: cd8fc3
+
+-Green
+Main:  377f3a
+Dark:  235025
+Light: 97cb9a
+
+-Yellow
+Main:  d7d875
+Dark:  95955f
+Light: f0f0c8
+
+-Red
+Main:  d43f42
+Dark:  9a2e30
+Light: f3a7a8
