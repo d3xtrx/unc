@@ -67,12 +67,38 @@
 </script>
 <script>
     function toggleMode() {
-        // ... (rest of the toggleMode function remains unchanged)
+        const stylesheet = document.getElementById('stylesheet');
+        const darkStylesheet = document.getElementById('dark-mode-stylesheet');
+        const selectElement = document.getElementById('toggle');
+
+        // Check current mode and switch stylesheets
+        if (selectElement.value === "dark") {
+            stylesheet.disabled = true; // Disable light mode CSS
+            darkStylesheet.disabled = false; // Enable dark mode CSS
+            document.body.style.backgroundColor = "gray";
+            document.querySelector('nav').style.backgroundColor = "tan";
+            localStorage.setItem('theme', 'dark'); // Save preference in local storage
+        } else {
+            stylesheet.disabled = false; // Enable light mode CSS
+            darkStylesheet.disabled = true; // Disable dark mode CSS
+            document.body.style.backgroundColor = "rgb(243, 187, 190)";
+            document.querySelector('nav').style.backgroundColor = "rgb(245, 233, 209)";
+            localStorage.setItem('theme', 'light'); // Save preference in local storage
+        }
     }
 
     // On page load, check local storage for theme preference
     window.onload = function() {
-        // ... (rest of the window.onload function remains unchanged)
+        const savedTheme = localStorage.getItem('theme');
+        const selectElement = document.getElementById('toggle');
+
+        if (savedTheme === 'dark') {
+            selectElement.value = 'dark'; // Set dropdown to dark mode
+            toggleMode(); // Apply dark mode styles
+        } else {
+            selectElement.value = 'light'; // Set dropdown to light mode
+            toggleMode(); // Apply light mode styles
+        }
     }
 </script>
 </body>
