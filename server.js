@@ -1,8 +1,46 @@
 const express = require('express');
 const { Pool } = require('pg');
+const bodyParser = require('body-parser')
+const path = require('path');
 
 const app = express();
-app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.set("view engine", "ejs")
+app.use(bodyParser.urlencoded({extended: true}))
+
+
+app.get("/", (req, res)=> {
+  res.render("index.ejs")
+})
+
+app.get("/index", (req, res)=> {
+  res.render("index.ejs")
+})
+
+app.get("/stat-form", (req, res)=> {
+  res.render("stat-form.ejs")
+})
+
+app.get("/unc-store", (req, res)=> {
+  res.render("unc-store.ejs")
+})
+
+app.post("/setweight", (req, res) => {
+  res.render("stat-form.ejs")
+
+
+
+
+
+
+
+
+
+
+
+
+})
 
 const pool = new Pool({
 //  user: 'your_username',
@@ -20,20 +58,6 @@ app.get('/debug_all_users', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.post('/setweight', (req, res) => {
-  const number = req.body.number;
-
-  if (typeof number === 'number' && Number.isInteger(number)) {
-    console.log(`Received integer: ${number}`);
-    res.status(200).json({ message: `Received and printed integer: ${number}` });
-  } else {
-    res.status(400).json({ error: 'Invalid input. Please provide an integer.' });
-  }
-});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/stat-form.html');
-});
