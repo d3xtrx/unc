@@ -32,12 +32,36 @@
                 <p><%= item.description %></p>
                 <p>Category: <%= item.category %></p>
                 <p>Price: $<%= (parseFloat(item.price) || 0).toFixed(2) %></p>
+                <button id="buy-button">Buy!</button>
             </div>
         <% }); %>
     </div>
 
     <script>
-        // Your existing script content
+        document.getElementById('buy-button').addEventListener('click', async () => {
+        const id = 'req.body.id'; // Replace with the actual avatar ID
+        const name = 'req.body.name'; // Replace with the actual avatar name
+
+        try {
+            const response = await fetch('/set_avatar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id, name })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Avatar updated:', data);
+                // Optionally, handle success (e.g., update UI or notify user)
+            } else {
+                console.error('Error updating avatar:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    });
     </script>
     <script>
         function toggleMode() {
