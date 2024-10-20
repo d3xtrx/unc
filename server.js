@@ -27,20 +27,22 @@ app.get("/unc-store", (req, res)=> {
 })
 
 app.post("/setweight", (req, res) => {
-  res.render("stat-form.ejs")
-
-
-
-
-
-
-
-
-
-
-
-
+  const weight = req.body.weight;
+  console.log(weight);
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const pool = new Pool({
 //  user: 'your_username',
