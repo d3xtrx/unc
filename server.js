@@ -95,6 +95,15 @@ app.get("/unc-store", (req, res)=> {
 app.get("/stats", (req, res) => {
   res.render("stats.ejs")
 })
+
+app.post("/set_avatar", async (req, res) => {
+  const id = req.body.id;
+  const name = req.body.name;
+
+  await pool.query('BEGIN');
+  await pool.query('UPDATE users SET avatar = $1 WHERE user_id IS NOT NULL', [id]);
+  await pool.query('UPDATE users SET avatar_name = $1 WHERE user_id IS NOT NULL', [name]);
+})
 app.post("/setweight", async (req, res) => {
   const weight = req.body.weight;
   const exerciseCount = req.body.exerciseCount;
@@ -136,8 +145,6 @@ app.post("/setweight", async (req, res) => {
     console.error(err);
     res.status(500).send("An error occurred while saving the data");
   }
-
-  // Here you would typically save this data to your database
 
 });
 

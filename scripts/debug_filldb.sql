@@ -5,6 +5,7 @@ CREATE TABLE users (
     last_name VARCHAR(50),
     sentiment INT,
     avatar INT,
+    avatar_name VARCHAR(50),
     weight NUMERIC,
     calories_burned DECIMAL(10, 2)
 );
@@ -32,7 +33,5 @@ ON CONFLICT (username) DO NOTHING;
 
 INSERT INTO shop (name, description, category, price, image_url)
 VALUES
-    (
-
-    )
-ON CONFLICT (name) DO NOTHING;
+    ('unc', 'classic unc', 'avatar', '10', 'img/unc.png'),
+    ('pink unc', 'unc but pink', 'avatar', '10', 'img/pinkunc.png')
