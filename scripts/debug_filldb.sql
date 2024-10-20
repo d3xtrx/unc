@@ -13,7 +13,6 @@ CREATE TABLE shop (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     category VARCHAR(50),
-    condition VARCHAR(50),
     price DECIMAL(10, 2),
     image_url VARCHAR(255)
 );
