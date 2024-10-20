@@ -4,6 +4,7 @@ CREATE TABLE users (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     sentiment INT,
+    avatar INT,
     weight NUMERIC,
     calories_burned DECIMAL(10, 2)
 );

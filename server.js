@@ -70,6 +70,24 @@ app.get('/get_sentiment', async (req, res) => {
   }
 });
 
+app.get('/get_avatar', async (req, res) => {
+  console.log("GET /get_avatar endpoint hit");
+  try {
+    const result = await pool.query('SELECT avatar FROM users WHERE user_id = $1', [1]);
+    console.log("Query result:", result.rows);
+    if (result.rows.length > 0) {
+      console.log("Sending sentiment:", result.rows[0].avatar);
+      res.json({ avatar: result.rows[0].avatar});
+    } else {
+      console.log("User not found");
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    console.error("Error in /get_sentiment:", err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.get("/unc-store", (req, res)=> {
   res.render("unc-store.ejs")
 })
