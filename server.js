@@ -9,6 +9,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}))
 
+const pool = new Pool({
+//  user: 'your_username',
+  host: 'localhost',
+  database: 'uncdb',
+//  password: 'your_password',
+  port: 5432,
+});
+
 function calculateHealthScore(weight, exerciseCount, totalExerciseDuration, calories) {
   let score = 0;
 
@@ -44,10 +52,9 @@ app.get("/unc-store", (req, res)=> {
   res.render("unc-store.ejs")
 })
 
-app.get("/stats"), (req, res) => {
+app.get("/stats", (req, res) => {
   res.render("stats.ejs")
-}
-
+})
 app.post("/setweight", async (req, res) => {
   const weight = req.body.weight;
   const exerciseCount = req.body.exerciseCount;
@@ -59,10 +66,10 @@ app.post("/setweight", async (req, res) => {
 
     // Insert user stats
     const userStatResult = await pool.query(
-        'INSERT INTO exercises (calories_burned) VALUES ($1, $2) RETURNING id',
+        'UPDATE users SET calories_burned = $1 WHERE user_id IS NOT NULL RETURNING user_id',
         [calories]
     );
-    const userStatId = userStatResult.rows[0].id;
+    const userStatId = userStatResult.rows[0].user_id;
 
     console.log(`Weight: ${weight}`);
     console.log(`Number of exercises: ${exerciseCount}`);
@@ -71,16 +78,16 @@ app.post("/setweight", async (req, res) => {
     let totalExerciseDuration = 0;
     for (let i = 0; i < exerciseCount; i++) {
       const exerciseType = req.body[`exerciseType${i}`];
-      const exerciseDuration = req.body[`exerciseDuration${i}`];
+      const exerciseDuration = parseInt(req.body[`exerciseDuration${i}`], 10);
       await pool.query(
-          'INSERT INTO exercises (user_stat_id, exercise_type, duration) VALUES ($1, $2, $3)',
+          'INSERT INTO exercises (user_id, exercise_type, duration) VALUES ($1, $2, $3)',
           [userStatId, exerciseType, exerciseDuration]
       );
       totalExerciseDuration += exerciseDuration;
       console.log(`Exercise ${i + 1}: ${exerciseType} for ${exerciseDuration} minutes`);
     }
     const healthScore = calculateHealthScore(weight, exerciseCount, totalExerciseDuration, calories);
-    await pool.query('INSERT INTO users (sentiment) VALUES ($1)', healthScore)
+    //await pool.query('INSERT INTO users (sentiment) VALUES ($1)', healthScore)
 
     await pool.query('COMMIT');
     res.redirect('/stats');
@@ -92,16 +99,8 @@ app.post("/setweight", async (req, res) => {
 
   // Here you would typically save this data to your database
 
-  res.redirect('/'); // change to redirect to stats page
 });
 
-const pool = new Pool({
-//  user: 'your_username',
-  host: 'localhost',
-  database: 'uncdb',
-//  password: 'your_password',
-  port: 5432,
-});
 
 app.get('/debug_all_users', async (req, res) => {
   try {
