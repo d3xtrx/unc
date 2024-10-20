@@ -8,7 +8,7 @@ qr = qrcode.QRCode(
         box_size=1,
         border=0.
         )
-qr.add_data("http://localhost:3000/")
+qr.add_data("http://172.27.188.83:3000/")
 qr.make(fit=True)
 
 img = qr.make_image(fill_color="black", back_color="white")
