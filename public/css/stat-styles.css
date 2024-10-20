@@ -61,9 +61,13 @@ form {
     text-align: center;
 }
 
-.weight, .exercise-time, .list-of-exercise, .minutes, .calories {
+.weight, .exercise-time, .list-of-exercise, .minutes, .calories, #exerciseCount {
     font-size: 30px;
     width: 450px;
+}
+
+select {
+    font-size: 25px;
 }
 
 /*.exercise-time, .list-of-exercise, #exercise-select {
