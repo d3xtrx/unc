@@ -47,7 +47,6 @@ app.get("/unc-store", (req, res)=> {
 app.get("/stats", (req, res) => {
   res.render("stats.ejs")
 })
-
 app.post("/setweight", async (req, res) => {
   const weight = req.body.weight;
   const exerciseCount = req.body.exerciseCount;
