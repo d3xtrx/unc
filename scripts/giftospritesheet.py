@@ -2,7 +2,6 @@
 from os import listdir, system
 from PIL import Image
 import sys
-from pygifsicle import optimize
 
 
 
