@@ -7,7 +7,7 @@ CREATE TABLE users (
     avatar INT,
     avatar_name VARCHAR(50),
     weight INT,
-    calories_burned DECIMAL(10, 2)
+    calories_eaten DECIMAL(10, 2)
 );
 
 CREATE TABLE shop (
