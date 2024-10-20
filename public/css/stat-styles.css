@@ -70,6 +70,16 @@ select {
     font-size: 25px;
 }
 
+.toggle-button {
+    font-size: 30px;
+    background-color: rgb(243, 187, 190);
+    border-radius: 35px;
+    position: absolute; /* Positioning it absolutely */
+    top: 10px; /* Adjust as needed */
+    right: 50px; /* Adjust as needed */
+    padding: 10px; /* Add some padding for better appearance */
+}
+
 /*.exercise-time, .list-of-exercise, #exercise-select {
     display: none;
 }*/
