@@ -73,9 +73,6 @@ app.get("/user/:userId", async (req, res) => {
   }
 });
 
-app.get("/index", (req, res)=> {
-  res.render("index.ejs")
-})
 
 app.get("/stat-form", (req, res)=> {
   res.render("stat-form.ejs")
@@ -99,6 +96,24 @@ app.get('/get_sentiment', async (req, res) => {
   }
 });
 
+app.get('/get_sentiment', async (req, res) => {
+  console.log("GET /get_sentiment endpoint hit");
+  try {
+    const result = await pool.query('SELECT calories_burned FROM users WHERE user_id = $1', [1]);
+    console.log("Query result:", result.rows);
+    if (result.rows.length > 0) {
+      console.log("Sending calories_burned:", result.rows[0].calories_burned);
+      res.json({ calories_burned: result.rows[0].calories_burned});
+    } else {
+      console.log("User not found");
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    console.error("Error in /get_calories_burned:", err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.get('/get_avatar', async (req, res) => {
   console.log("GET /get_avatar endpoint hit");
   try {
@@ -113,6 +128,24 @@ app.get('/get_avatar', async (req, res) => {
     }
   } catch (err) {
     console.error("Error in /get_sentiment:", err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/get_avatar_name', async (req, res) => {
+  console.log("GET /get_avatar_name endpoint hit");
+  try {
+    const result = await pool.query('SELECT avatar_name FROM users WHERE user_id = $1', [1]);
+    console.log("Query result:", result.rows);
+    if (result.rows.length > 0) {
+      console.log("Sending sentiment:", result.rows[0].avatar_name);
+      res.json({ avatar_name: result.rows[0].avatar_name});
+    } else {
+      console.log("User not found");
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    console.error("Error in /get_avatar_name:", err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
