@@ -59,8 +59,8 @@ app.post("/setweight", async (req, res) => {
 
     // Insert user stats
     const userStatResult = await pool.query(
-        'INSERT INTO user_stats (weight, calories) VALUES ($1, $2) RETURNING id',
-        [weight, calories]
+        'INSERT INTO exercises (calories_burned) VALUES ($1, $2) RETURNING id',
+        [calories]
     );
     const userStatId = userStatResult.rows[0].id;
 
@@ -69,7 +69,6 @@ app.post("/setweight", async (req, res) => {
     console.log(`Calories: ${calories}`);
 
     let totalExerciseDuration = 0;
-    // Process exercise data
     for (let i = 0; i < exerciseCount; i++) {
       const exerciseType = req.body[`exerciseType${i}`];
       const exerciseDuration = req.body[`exerciseDuration${i}`];
