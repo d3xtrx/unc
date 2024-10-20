@@ -1,0 +1,98 @@
+* {
+    font-family: "Lobster", sans-serif;
+    font-weight: normal;
+    font-style: normal;      
+}
+
+
+body {
+    background-color: gray;
+    /*animation: color-change 10s infinite linear;*/
+} 
+
+nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    font-size: 45px;
+    background-color: tan;
+    width: 100%;
+    height: 75px;
+    word-spacing: 50px;
+    vertical-align: middle;
+}
+
+h1 {
+    color: tan;
+}
+
+/*@keyframes color-change {
+    0%   { background: rgb(243,187, 190); }
+    20%  { background: rgb(245, 233, 209); }
+    40%  { background: rgb(243,187, 190); }
+    60%  { background: rgb(245, 233, 209); }
+    80%  { background: rgb(243,187, 190); }
+    100% { background: rgb(245, 233, 209); }
+  }*/
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    font-size: 45.5px;
+    transition:font-size 0.5s ease, text-shadow 0.5s ease;
+    text-shadow: 0 0 60px grey;
+}
+
+header {
+    font-size: 100px;
+    margin-top: 200px;
+    text-align: center;
+    color: tan;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 35px;
+    color: tan;
+}
+
+form {
+    text-align: center;
+}
+
+.weight, .exercise-time, .list-of-exercise, .minutes, .calories, #exerciseCount {
+    font-size: 30px;
+    width: 450px;
+}
+
+select {
+    font-size: 25px;
+}
+
+.toggle-button {
+    font-size: 30px;
+    background-color: tan;
+    border-radius: 35px;
+    position: absolute; /* Positioning it absolutely */
+    top: 10px; /* Adjust as needed */
+    right: 50px; /* Adjust as needed */
+    padding: 10px; /* Add some padding for better appearance */
+}
+
+.submit-button {
+    font-size: 15px;
+    margin-top: 30px;
+    background-color: tan;
+    border-radius: 35px;
+}
+
+/*.exercise-time, .list-of-exercise, #exercise-select {
+    display: none;
+}*/
+
+
+
