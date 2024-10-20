@@ -162,16 +162,14 @@ app.get("/unc-store", async (req, res) => {
 
 app.get("/statistics", async (req, res) => {
   try {
-    // Get total number of users
     const userCountResult = await pool.query('SELECT COUNT(*) FROM users');
     const userCount = userCountResult.rows[0].count;
 
-    // Get average weight of users
-    const avgWeightResult = await pool.query('SELECT AVG(weight) FROM users');
-    const avgWeight = avgWeightResult.rows[0].avg;
+    const userId = 1; // Replace with the actual user ID you want to display
+    const currentWeightResult = await pool.query('SELECT weight FROM users WHERE user_id = $1', [userId]);
+    const curWeight = currentWeightResult.rows[0]?.weight || null;
 
-    // Get total calories burned by all users
-    const totalCaloriesResult = await pool.query('SELECT SUM(calories_burned) FROM users');
+    const totalCaloriesResult = await pool.query('SELECT SUM(calories_burned) FROM users WHERE user_id = $1', [1]);
     const totalCalories = totalCaloriesResult.rows[0].sum;
 
     // Get most popular exercise type
@@ -194,7 +192,7 @@ app.get("/statistics", async (req, res) => {
 
     res.render("statistics.ejs", {
       userCount,
-      avgWeight,
+      curWeight,
       totalCalories,
       popularExercise,
       avgDuration,
@@ -229,7 +227,7 @@ app.get("/stats", async (req, res) => {
     console.error("Error fetching statistics:", err);
     res.status(500).render("stats.ejs", {
       userCount: 'N/A',
-      avgWeight: 'N/A',
+      curWeight: 'N/A',
       totalCalories: 'N/A',
       error: 'An error occurred while fetching statistics'
     });
@@ -259,6 +257,7 @@ app.post("/setweight", async (req, res) => {
         [calories]
     );
     const userStatId = userStatResult.rows[0].user_id;
+    await pool.query('UPDATE users SET weight = $1 WHERE user_id = $2', [weight, userStatId]);
 
     console.log(`Weight: ${weight}`);
     console.log(`Number of exercises: ${exerciseCount}`);

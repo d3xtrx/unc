@@ -26,7 +26,13 @@
 <div class="statistics">
     <h2>User Statistics</h2>
     <p>Total Users: <%= typeof userCount === 'number' ? userCount : 'N/A' %></p>
-    <p>Average User Weight: <%= typeof avgWeight === 'number' ? avgWeight.toFixed(2) : 'N/A' %> kg</p>
+    <p>Current User Weight:
+    <% if (typeof curWeight === 'number' && !isNaN(curWeight)) { %>
+        <%= curWeight.toFixed(2) %> kg
+    <% } else { %>
+        N/A
+    <% } %>
+    </p>
     <p>Total Calories Burned: <%= typeof totalCalories === 'number' ? totalCalories.toFixed(2) : 'N/A' %></p>
     <% if (typeof error !== 'undefined') { %>
         <p class="error"><%= error %></p>
