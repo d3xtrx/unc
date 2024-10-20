@@ -40,9 +40,38 @@ function calculateHealthScore(weight, exerciseCount, totalExerciseDuration, calo
   return intscore;
 }
 
-app.get("/", (req, res)=> {
-  res.render("index.ejs")
-})
+app.get("/", async (req, res) => {
+  try {
+    const userId = 1; // Replace with actual user ID or authentication logic
+    const result = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
+
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      res.render("index.ejs", { user: user });
+    } else {
+      res.render("index.ejs", { user: null });
+    }
+  } catch (err) {
+    console.error("Error fetching user data:", err);
+    res.render("index.ejs", { user: null });
+  }
+});
+
+app.get("/user/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const result = await pool.query('SELECT * FROM users WHERE user_id = $1', [userId]);
+
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    console.error("Error fetching user data:", err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.get("/index", (req, res)=> {
   res.render("index.ejs")
@@ -88,13 +117,91 @@ app.get('/get_avatar', async (req, res) => {
   }
 });
 
-app.get("/unc-store", (req, res)=> {
-  res.render("unc-store.ejs")
-})
+app.get("/unc-store", async (req, res) => {
+  try {
+    const result = await pool.query('SELECT item_id, name, description, category, CAST(price AS NUMERIC) AS price, image_url FROM shop');
+    res.render("unc-store.ejs", { items: result.rows });
+  } catch (err) {
+    console.error("Error fetching shop items:", err);
+    res.status(500).send("Error fetching shop items");
+  }
+});
 
-app.get("/stats", (req, res) => {
-  res.render("stats.ejs")
-})
+app.get("/statistics", async (req, res) => {
+  try {
+    // Get total number of users
+    const userCountResult = await pool.query('SELECT COUNT(*) FROM users');
+    const userCount = userCountResult.rows[0].count;
+
+    // Get average weight of users
+    const avgWeightResult = await pool.query('SELECT AVG(weight) FROM users');
+    const avgWeight = avgWeightResult.rows[0].avg;
+
+    // Get total calories burned by all users
+    const totalCaloriesResult = await pool.query('SELECT SUM(calories_burned) FROM users');
+    const totalCalories = totalCaloriesResult.rows[0].sum;
+
+    // Get most popular exercise type
+    const popularExerciseResult = await pool.query(`
+      SELECT exercise_type, COUNT(*) as count
+      FROM exercises
+      GROUP BY exercise_type
+      ORDER BY count DESC
+      LIMIT 1
+    `);
+    const popularExercise = popularExerciseResult.rows[0];
+
+    // Get average exercise duration
+    const avgDurationResult = await pool.query('SELECT AVG(duration) FROM exercises');
+    const avgDuration = avgDurationResult.rows[0].avg;
+
+    // Get total number of exercises logged
+    const exerciseCountResult = await pool.query('SELECT COUNT(*) FROM exercises');
+    const exerciseCount = exerciseCountResult.rows[0].count;
+
+    res.render("statistics.ejs", {
+      userCount,
+      avgWeight,
+      totalCalories,
+      popularExercise,
+      avgDuration,
+      exerciseCount
+    });
+  } catch (err) {
+    console.error("Error fetching statistics:", err);
+    res.status(500).send("Error fetching statistics");
+  }
+});
+
+app.get("/stats", async (req, res) => {
+  try {
+    // Get total number of users
+    const userCountResult = await pool.query('SELECT COUNT(*) FROM users');
+    const userCount = parseInt(userCountResult.rows[0].count, 10);
+
+    // Get average weight of users
+    const avgWeightResult = await pool.query('SELECT AVG(weight) FROM users');
+    const avgWeight = parseFloat(avgWeightResult.rows[0].avg);
+
+    // Get total calories burned by all users
+    const totalCaloriesResult = await pool.query('SELECT SUM(calories_burned) FROM users');
+    const totalCalories = parseFloat(totalCaloriesResult.rows[0].sum);
+
+    res.render("stats.ejs", {
+      userCount,
+      avgWeight,
+      totalCalories
+    });
+  } catch (err) {
+    console.error("Error fetching statistics:", err);
+    res.status(500).render("stats.ejs", {
+      userCount: 'N/A',
+      avgWeight: 'N/A',
+      totalCalories: 'N/A',
+      error: 'An error occurred while fetching statistics'
+    });
+  }
+});
 
 app.post("/set_avatar", async (req, res) => {
   const id = req.body.id;

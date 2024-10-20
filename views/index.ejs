@@ -22,7 +22,7 @@
 
 </nav>
 <br/>
-<header>Welcome name</header>
+<header>Welcome <%= user && user.first_name ? user.first_name : 'Guest' %></header>
 <script>
     function toggleMode() {
         const stylesheet = document.getElementById('stylesheet');

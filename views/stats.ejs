@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Nutrition Counselor</title>
+    <title>UNC Statistics</title>
     <link id="stylesheet" href="/css/stat-styles.css" rel="stylesheet"/>
-    <link id="dark-mode-stylesheet"href="/css/dark-mode.css" rel="stylesheet" disabled/>
+    <link id="dark-mode-stylesheet" href="/css/dark-mode.css" rel="stylesheet" disabled/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Lobster&display=swap" rel="stylesheet">
 </head>
 <body>
 <nav>
-    <a href="/">Home</a>
+    <a href="/index">Home</a>
     <a href="/stat-form">Workout-Tracker</a>
     <a href="/stats">Stats</a>
     <a href="/unc-store">Store</a>
@@ -22,7 +22,16 @@
     </select>
 </nav>
 <br/>
-<header>Stats Page</header>
+<header>UNC Statistics</header>
+<div class="statistics">
+    <h2>User Statistics</h2>
+    <p>Total Users: <%= typeof userCount === 'number' ? userCount : 'N/A' %></p>
+    <p>Average User Weight: <%= typeof avgWeight === 'number' ? avgWeight.toFixed(2) : 'N/A' %> kg</p>
+    <p>Total Calories Burned: <%= typeof totalCalories === 'number' ? totalCalories.toFixed(2) : 'N/A' %></p>
+    <% if (typeof error !== 'undefined') { %>
+        <p class="error"><%= error %></p>
+    <% } %>
+</div>
 
 <script>
     function toggleMode() {
@@ -34,14 +43,14 @@
         if (selectElement.value === "dark") {
             stylesheet.disabled = true; // Disable light mode CSS
             darkStylesheet.disabled = false; // Enable dark mode CSS
-            document.body.style.backgroundColor = "gray"; 
-            document.querySelector('nav').style.backgroundColor = "tan"; 
+            document.body.style.backgroundColor = "gray";
+            document.querySelector('nav').style.backgroundColor = "tan";
             localStorage.setItem('theme', 'dark'); // Save preference in local storage
         } else {
             stylesheet.disabled = false; // Enable light mode CSS
             darkStylesheet.disabled = true; // Disable dark mode CSS
-            document.body.style.backgroundColor = "rgb(243, 187, 190)"; 
-            document.querySelector('nav').style.backgroundColor = "rgb(245, 233, 209)"; 
+            document.body.style.backgroundColor = "rgb(243, 187, 190)";
+            document.querySelector('nav').style.backgroundColor = "rgb(245, 233, 209)";
             localStorage.setItem('theme', 'light'); // Save preference in local storage
         }
     }
@@ -60,6 +69,5 @@
         }
     }
 </script>
-
 </body>
 </html>

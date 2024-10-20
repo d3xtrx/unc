@@ -24,6 +24,21 @@
     </nav>
     <br/>
     <header>Store</header>
+    <div class="shop-items">
+        <% items.forEach(item => { %>
+            <div class="shop-item">
+                <h2><%= item.name %></h2>
+                <img src="<%= item.image_url %>" alt="<%= item.name %>">
+                <p><%= item.description %></p>
+                <p>Category: <%= item.category %></p>
+                <p>Price: $<%= (parseFloat(item.price) || 0).toFixed(2) %></p>
+            </div>
+        <% }); %>
+    </div>
+
+    <script>
+        // Your existing script content
+    </script>
     <script>
         function toggleMode() {
             const stylesheet = document.getElementById('stylesheet');
