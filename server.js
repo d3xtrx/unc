@@ -9,6 +9,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}))
 
+function calculateHealthScore(weight, exerciseCount, totalExerciseDuration, calories) {
+  let score = 0;
+
+  const idealWeight = 22 * (1.8 * 1.8); // Example: ideal weight for 180cm height
+  const weightDiff = Math.abs(weight - idealWeight);
+  if (weightDiff <= 5) score += 1;
+  else if (weightDiff <= 10) score += 0.5;
+
+  if (exerciseCount > 0) {
+    score += 0.5;
+    if (totalExerciseDuration >= 30) score += 0.5;
+    if (totalExerciseDuration >= 60) score += 0.5;
+  }
+
+  if (calories >= 1800 && calories <= 2200) score += 1;
+  else if (calories >= 1600 && calories <= 2400) score += 0.5;
+  return Math.min(4, score); // Ensure the score doesn't exceed 4
+}
 
 app.get("/", (req, res)=> {
   res.render("index.ejs")
@@ -26,25 +44,56 @@ app.get("/unc-store", (req, res)=> {
   res.render("unc-store.ejs")
 })
 
-app.post("/setweight", (req, res) => {
+app.get("/stats"), (req, res) => {
+  res.render("stats.ejs")
+}
+
+app.post("/setweight", async (req, res) => {
   const weight = req.body.weight;
   const exerciseCount = req.body.exerciseCount;
   const calories = req.body.calories;
 
-  console.log(`Weight: ${weight}`);
-  console.log(`Number of exercises: ${exerciseCount}`);
-  console.log(`Calories: ${calories}`);
+  try {
+    // Start a transaction
+    await pool.query('BEGIN');
 
-  // Process exercise data
-  for (let i = 0; i < exerciseCount; i++) {
-    const exerciseType = req.body[`exerciseType${i}`];
-    const exerciseDuration = req.body[`exerciseDuration${i}`];
-    console.log(`Exercise ${i + 1}: ${exerciseType} for ${exerciseDuration} minutes`);
+    // Insert user stats
+    const userStatResult = await pool.query(
+        'INSERT INTO user_stats (weight, calories) VALUES ($1, $2) RETURNING id',
+        [weight, calories]
+    );
+    const userStatId = userStatResult.rows[0].id;
+
+    console.log(`Weight: ${weight}`);
+    console.log(`Number of exercises: ${exerciseCount}`);
+    console.log(`Calories: ${calories}`);
+
+    let totalExerciseDuration = 0;
+    // Process exercise data
+    for (let i = 0; i < exerciseCount; i++) {
+      const exerciseType = req.body[`exerciseType${i}`];
+      const exerciseDuration = req.body[`exerciseDuration${i}`];
+      await pool.query(
+          'INSERT INTO exercises (user_stat_id, exercise_type, duration) VALUES ($1, $2, $3)',
+          [userStatId, exerciseType, exerciseDuration]
+      );
+      totalExerciseDuration += exerciseDuration;
+      console.log(`Exercise ${i + 1}: ${exerciseType} for ${exerciseDuration} minutes`);
+    }
+    const healthScore = calculateHealthScore(weight, exerciseCount, totalExerciseDuration, calories);
+    await pool.query('INSERT INTO users (sentiment) VALUES ($1)', healthScore)
+
+    await pool.query('COMMIT');
+    res.redirect('/stats');
+  } catch (err) {
+    await pool.query('ROLLBACK');
+    console.error(err);
+    res.status(500).send("An error occurred while saving the data");
   }
 
   // Here you would typically save this data to your database
 
-  res.redirect('/'); // Redirect to home page or a confirmation page
+  res.redirect('/'); // change to redirect to stats page
 });
 
 const pool = new Pool({

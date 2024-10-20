@@ -6,6 +6,8 @@ CREATE TABLE users (
     last_name VARCHAR(50),
     phone_number VARCHAR(20),
     sentiment INT,
+    weight NUMERIC,
+    date_recorded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP WITH TIME ZONE
 );
@@ -20,12 +22,12 @@ CREATE TABLE shop (
     image_url VARCHAR(255),
 );
 
-CREATE TABLE exercise (
+CREATE TABLE exercises (
     exercise_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id),
+    user_id INTEGER REFERENCES users(user_id),
     date DATE NOT NULL,
     exercise_type VARCHAR(50) NOT NULL,
-    duration INT NOT NULL,  -- Duration in minutes
+    duration INTEGER NOT NULL,  -- Duration in minutes
     calories_burned DECIMAL(10, 2),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
