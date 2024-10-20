@@ -29,6 +29,7 @@ app.get("/unc-store", (req, res)=> {
 app.post("/setweight", (req, res) => {
   const weight = req.body.weight;
   console.log(weight);
+  res.redirect('num-form.ejs');
 })
 
 

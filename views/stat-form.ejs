@@ -17,17 +17,39 @@
         <a href="/unc-store">Store</a>
     </nav>
     <br/>
-    <header>Stat submission</header>
+    <header>Stat Submission</header>
     <h1>Enter your information below!</h1>
 
     <form action="/setweight" method="POST" class="form">
         <label>
             <input type="number" name="weight" class="weight" placeholder="Enter your weight" />
        </label>
+       <label>
+            <input type="number" name="minutes" class="minutes" placeholder="Number of exercises" />
+        </label>
+        <label>
+            <input type="number" name="calories" class="calories" placeholder="Calories eaten" />
+        </label>
         <div class="submit">
             <input type="submit" value="CLick Me!" class="submit-button"/>
         </div>
     </form>
     <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const weightInput = document.querySelector('.weight');
+            
+            // Add event listener for keypress
+            weightInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent default form submission
+                    // Redirect to the desired page
+                    window.location.href = 'num-form'; // Change this to your desired URL
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
+        

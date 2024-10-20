@@ -61,7 +61,7 @@ form {
     text-align: center;
 }
 
-.weight, .exercise-time, .list-of-exercise {
+.weight, .exercise-time, .list-of-exercise, .minutes, .calories {
     font-size: 30px;
     width: 450px;
 }
