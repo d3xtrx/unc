@@ -33,7 +33,9 @@ function calculateHealthScore(weight, exerciseCount, totalExerciseDuration, calo
 
   if (calories >= 1800 && calories <= 2200) score += 1;
   else if (calories >= 1600 && calories <= 2400) score += 0.5;
-  return Math.min(4, score); // Ensure the score doesn't exceed 4
+  let minimized_score = Math.min(4, score); // Ensure the score doesn't exceed 4
+  let intscore = parseInt(minimized_score, 10);
+  return intscore;
 }
 
 app.get("/", (req, res)=> {
@@ -87,7 +89,7 @@ app.post("/setweight", async (req, res) => {
       console.log(`Exercise ${i + 1}: ${exerciseType} for ${exerciseDuration} minutes`);
     }
     const healthScore = calculateHealthScore(weight, exerciseCount, totalExerciseDuration, calories);
-    //await pool.query('INSERT INTO users (sentiment) VALUES ($1)', healthScore)
+    await pool.query('UPDATE users SET sentiment = $1 WHERE user_id = $2', [healthScore, userStatId])
 
     await pool.query('COMMIT');
     res.redirect('/stats');
